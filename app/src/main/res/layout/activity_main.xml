@@ -18,22 +18,11 @@
         android:orientation="vertical"
         app:boxedEdges="all">
 
-        <EditText
-            android:id="@+id/edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"/>
-
-        <Button
-            android:id="@+id/button"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Infer"/>
-
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Hello World!"/>
 
     </LinearLayout>
 </android.support.wear.widget.BoxInsetLayout>
