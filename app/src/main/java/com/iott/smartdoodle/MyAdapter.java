@@ -35,7 +35,7 @@ import java.util.List;
 //}
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private List<String> mDataset;
+    private List<InstalledApp> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -50,7 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<String> myDataset) {
+    public MyAdapter(List<InstalledApp> myDataset) {
         mDataset = myDataset;
     }
 
@@ -70,7 +70,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mTextView.setText(mDataset.get(position).mAppName);
 
     }
 
