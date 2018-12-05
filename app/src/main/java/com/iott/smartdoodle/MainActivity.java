@@ -14,7 +14,13 @@ public class MainActivity extends WearableActivity {
     }
 
     public void handleRecordButtonPress(View view) {
+//        Intent recordActivityIntent = new Intent(this, RecordActivity.class);
         Intent recordActivityIntent = new Intent(this, RecordActivity.class);
         startActivity(recordActivityIntent);
+    }
+
+    public void handleInferButtonPress(View view) {
+        Intent inferActivityIntent = new Intent(this, InferActivity.class);
+        startActivity(inferActivityIntent);
     }
 }

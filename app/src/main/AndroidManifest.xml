@@ -35,11 +35,14 @@
         <activity android:name=".AppPickerActivity">
         </activity>
         <activity
-            android:name=".RecordActivity"
+            android:name=".InferActivity"
             android:theme="@style/Theme.Wearable.Modal">
         </activity>
+        <activity android:name="android.support.wearable.activity.ConfirmationActivity">
+        </activity>
         <activity
-            android:name="android.support.wearable.activity.ConfirmationActivity">
+            android:name=".RecordActivity"
+            android:theme="@style/Theme.Wearable.Modal">
         </activity>
     </application>
 
