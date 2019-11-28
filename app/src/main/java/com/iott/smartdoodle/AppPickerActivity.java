@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
 import android.support.wearable.activity.WearableActivity;
+import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +24,7 @@ public class AppPickerActivity extends WearableActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_picker);
 
-        List<InstalledApp> apps = new ArrayList<>();
-        apps = getAllInstalledApps();
+        final List<InstalledApp> apps = Utils.getAllInstalledApps(this);
 
         mWearableRecyclerView = findViewById(R.id.recycler_launcher_view);
 
@@ -40,37 +41,18 @@ public class AppPickerActivity extends WearableActivity {
                 new WearableLinearLayoutManager(this));
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(apps);
-        mWearableRecyclerView.setAdapter(mAdapter);
-    }
-
-    public List<InstalledApp> getAllInstalledApps() {
-        List<InstalledApp> installedApps = new ArrayList<>();
-
-        final PackageManager pm = getPackageManager();
-        //get a list of installed apps.
-        List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_META_DATA);
-
-        for (PackageInfo packageInfo : packages) {
-            ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-
-            if (applicationInfo != null) {
-                final String applicationName = (String) (pm.getApplicationLabel(applicationInfo));
-                Intent launchIntentForPackage = pm.getLaunchIntentForPackage(applicationInfo.packageName);
-//                Log.d(TAG, String.format("[%s] Name: %s, Package: %s, launchActivity: %s",
-//                        isSystemPackage(packageInfo) ? "SYS" : "USER",
-//                        applicationName,
-//                        applicationInfo.packageName,
-//                        launchIntentForPackage)
-//                );
-                InstalledApp installedApp = new InstalledApp(applicationName, launchIntentForPackage, isSystemPackage(packageInfo));
-                installedApps.add(installedApp);
+        mAdapter = new MyAdapter(this, apps, new RecyclerViewClickListener() {
+            @Override
+            public void recyclerViewListClicked(View v,
+                                                int position) {
+                Log.d("Click", position + "");
+                Log.d("Click", apps.get(position).mAppName);
+                Intent recordActivity = new Intent(AppPickerActivity.this, RecordActivity.class);
+                recordActivity.putExtra("packageName", apps.get(position).mPackageName);
+                startActivity(recordActivity);
+                finish();
             }
-        }
-        return installedApps;
-    }
-
-    private boolean isSystemPackage(PackageInfo pkgInfo) {
-        return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+        });
+        mWearableRecyclerView.setAdapter(mAdapter);
     }
 }

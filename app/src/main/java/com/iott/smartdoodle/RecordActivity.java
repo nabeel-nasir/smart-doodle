@@ -13,16 +13,22 @@ public class RecordActivity extends WearableActivity {
 
     public static String TAG = "TouchEvent";
     private DoodleDrawingView drawView;
+    private int mRecordCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
+        if(getIntent().hasExtra("packageName"))
+            Log.d(TAG, getIntent().getStringExtra("packageName"));
+
         drawView = findViewById(R.id.drawing);
         drawView.initializeDrawHandler(new DrawEventHandler() {
             @Override
             public void onDoodleDrawComplete(List<int[]> touchPoints) {
+                mRecordCount++;
+
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -43,12 +49,26 @@ public class RecordActivity extends WearableActivity {
                 arrString += "]}";
                 Log.d(TAG, arrString);
 
+                String confirmationMsg = "Doodle " + "(" + mRecordCount + "/10)"  +" Recorded";
+                int finalRecordNum = 10;
+                if(mRecordCount == finalRecordNum)
+                    confirmationMsg = "Recording finished";
+
                 Intent intent = new Intent(RecordActivity.this, ConfirmationActivity.class);
                 intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
                         ConfirmationActivity.SUCCESS_ANIMATION);
                 intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE,
-                        getString(R.string.doodle_recorded));
+                        confirmationMsg);
                 startActivity(intent);
+                if(mRecordCount == finalRecordNum) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 1500);
+                }
+
             }
         });
 

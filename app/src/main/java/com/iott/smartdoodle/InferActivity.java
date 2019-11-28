@@ -30,6 +30,8 @@ public class InferActivity extends WearableActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
+        final List<InstalledApp> apps = Utils.getAllInstalledApps(this);
+
         try {
             tflite = new Interpreter(loadModelFile());
         } catch (IOException e) {
@@ -73,18 +75,29 @@ public class InferActivity extends WearableActivity {
                         break;
                     case 3:
                         shape = "Triangle";
+                        new LifxToggleAPI().execute();
                         break;
                     case 4:
                         shape = "Line";
                         break;
                 }
 
-                Intent intent = new Intent(InferActivity.this, ConfirmationActivity.class);
-                intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
-                        ConfirmationActivity.SUCCESS_ANIMATION);
-                intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE,
-                        shape);
-                startActivity(intent);
+                if(maxIndex == 0) {
+                    final Handler h = new Handler();
+                    h.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(apps.get(2).mIntent);
+                        }
+                    }, 1500);
+                } else {
+                    Intent intent = new Intent(InferActivity.this, ConfirmationActivity.class);
+                    intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                            ConfirmationActivity.SUCCESS_ANIMATION);
+                    intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE,
+                            shape);
+                    startActivity(intent);
+                }
             }
         });
 
