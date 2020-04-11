@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7" project-jdk-type="Python SDK" />
+  <component name="SbtLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+    <option name="projectSyncType">
+      <map>
+        <entry key="$USER_HOME$/Development/enlite-research/mqtt-collector" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/progfun" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+</project>
